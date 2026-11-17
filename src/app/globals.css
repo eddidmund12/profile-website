@@ -1,0 +1,175 @@
+@import "tailwindcss";
+
+/* ---------- Design tokens ---------- */
+:root,
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0e1014;
+  --surface: #14171d;
+  --surface-2: #1a1e26;
+  --line: #262b34;
+  --line-strong: #353c49;
+  --fg: #eef0f4;
+  --muted: #a3a9b5;
+  --faint: #7f8796;
+  --accent: #66adff;
+  --accent-fg: #06101d;
+  --accent-soft: rgba(102, 173, 255, 0.12);
+  --violet: #a994ff;
+  --ok: #62d6a1;
+  --warn: #f0b76a;
+  --glow: rgba(102, 173, 255, 0.16);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --surface-2: #eef0f4;
+  --line: #dfe3e9;
+  --line-strong: #c8ced8;
+  --fg: #12151b;
+  --muted: #4a5261;
+  --faint: #667085;
+  --accent: #1d5bd6;
+  --accent-fg: #ffffff;
+  --accent-soft: rgba(29, 91, 214, 0.09);
+  --violet: #6b4fe0;
+  --ok: #12805c;
+  --warn: #a15c07;
+  --glow: rgba(29, 91, 214, 0.1);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
+  --color-violet: var(--violet);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+}
+
+/* ---------- Base ---------- */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-fg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ---------- Layout helpers ---------- */
+.wrap {
+  width: min(100% - 2.5rem, 72rem);
+  margin-inline: auto;
+}
+
+@media (min-width: 640px) {
+  .wrap {
+    width: min(100% - 4rem, 72rem);
+  }
+}
+
+/* Faint dotted grid used behind the hero */
+.dot-grid {
+  background-image: radial-gradient(var(--line-strong) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 70% 60% at 70% 30%, #000 20%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 70% 30%, #000 20%, transparent 75%);
+  opacity: 0.55;
+}
+
+/* ---------- Code highlighting ---------- */
+.tk-k {
+  color: var(--violet);
+}
+.tk-s {
+  color: var(--accent);
+}
+.tk-n {
+  color: var(--warn);
+}
+.tk-p {
+  color: var(--faint);
+}
+
+/* ---------- Theme icon swap (CSS-only, no flash) ---------- */
+.theme-icon-sun {
+  display: none;
+}
+:root[data-theme="light"] .theme-icon-sun {
+  display: block;
+}
+:root[data-theme="light"] .theme-icon-moon {
+  display: none;
+}
+
+/* ---------- Motion ---------- */
+/* One orchestrated hero entrance. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise {
+  animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: var(--d, 0ms);
+}
+
+/* Data moving between connected services. */
+@keyframes flow {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+.flow {
+  stroke-dasharray: 4 6;
+  animation: flow 1.4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .rise,
+  .flow {
+    animation: none;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}
